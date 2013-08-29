@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/etc/php5/apache2/conf.d'
+let g:netrw_dirhist_2='/root/.vim'
+let g:netrw_dirhist_3='/home/jupiter/Desktop/bastion/learnc'
+let g:netrw_dirhist_4='/home/jupiter/Desktop/bastion/preph-client/.git'
+let g:netrw_dirhist_5='/home/thomas/Desktop/bastion/preph-client/include'
+let g:netrw_dirhist_6='/home/thomas/Desktop/bastion/preph-client/.git'
+let g:netrw_dirhist_7='/home/thomas/Desktop/bastion/preph-client/include'
+let g:netrw_dirhist_8='/home/thomas/Desktop/bastion/preph-server/src'
