@@ -5,7 +5,7 @@ set nocompatible 		" choose no compatibility with legacy vi
 syntax on
 filetype plugin indent on
 set background=dark
-colorscheme soruby
+colorscheme tomokai
 
 "" Display options
 set number 			" show line numbers
@@ -19,8 +19,8 @@ set cursorline 			" highlight the line of the cursor
 " zC: close all folds at cursor
 " zR: open all folds in buffer 
 " zM: close all folds in buffer
-set foldmethod=syntax 		" automatically fold based on syntax
-:nnoremap <Space> za 		" toggle the current fold
+" set foldmethod=syntax 		" automatically fold based on syntax
+" :nnoremap <Space> za 		" toggle the current fold
 
 "" Buffers
 set hidden 			" allow backgrounding buffers without writing
