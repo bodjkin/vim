@@ -26,7 +26,7 @@ set cursorline 			" highlight the line of the cursor
 set hidden 			" allow backgrounding buffers without writing
 				" remember marks/undo for background buffers
 set autoread 			" auto-reload buffers when file changed on disk
-set wildignorecase 		" ignore case when using :e to open a file
+" set wildignore 			" ignore case when using :e to open a file
 
 "" Mouse Usage
 "set mouse=a 			" allow using mouse
