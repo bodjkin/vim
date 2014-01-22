@@ -8,6 +8,27 @@ set background=dark
 "colorscheme soruby
 colorscheme tomokai
 
+"" Relative line numbering 
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
+
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+autocmd BufReadPost * :set relativenumber
+
+"" Show hidden files in NERDTree
+let NERDTreeShowHidden=1
+
 "" Display options
 set number 			" show line numbers
 set showcmd 			" display incomplete commands
