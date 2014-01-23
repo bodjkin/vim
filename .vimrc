@@ -12,8 +12,12 @@ colorscheme tomokai
 function! NumberToggle()
   if(&relativenumber == 1)
     set number
+    set relativenumber!
+    highlight LineNr ctermfg=184
   else
+    set number!
     set relativenumber
+    highlight LineNr ctermfg=81
   endif
 endfunc
 
@@ -25,6 +29,7 @@ nnoremap <C-n> :call NumberToggle()<cr>
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 autocmd BufReadPost * :set relativenumber
+highlight LineNr ctermfg=81
 
 "" Show hidden files in NERDTree
 let NERDTreeShowHidden=1
