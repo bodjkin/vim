@@ -77,7 +77,8 @@ set gdefault                    " have :s///g flag by default on
 "" Awesomeness
 inoremap kj <Esc>   " press kj to escape in insert mode :)
 vnoremap kj <Esc>   " press kj to escape in visual mode :)
-nnoremap zx ZZ " im so lazy
+nnoremap zs ZZ " im so lazy
+nnoremap zx ZQ " so so lazy
 "nnoremap JJJJ <Nop> " not sure what function this serves
 
 " Create blank newlines and stay in Normal mode
