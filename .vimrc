@@ -74,9 +74,9 @@ set smartcase                   " ... unless they contain at least one capital l
 :nnoremap <CR> :nohlsearch<cr>  " turn off search highlighting after search
 set gdefault                    " have :s///g flag by default on
 
-"" Awesomeness
-inoremap kj <Esc>   " press kj to escape in insert mode :)
-vnoremap kj <Esc>   " press kj to escape in visual mode :)
+"" Awesomeness - make sure no spaces before " or you get unexpected behavior
+inoremap kj <Esc>" press kj to escape in insert mode :)
+vnoremap kj <Esc>" press kj to escape in visual mode :)
 nnoremap zs ZZ " close and save
 nnoremap zx ZQ " close without saving
 nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
