@@ -13,7 +13,7 @@ colorscheme tomokai
 set rtp+=~/.vim/powerline/powerline/bindings/vim
 
 "" Better NERDTree
-let mapleader = "\\"
+let mapleader = ","
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_open_on_console_startup=1 " does not seem to be working...
 
