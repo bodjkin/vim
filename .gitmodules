@@ -22,3 +22,6 @@
 [submodule ".vim/bundle/vim-yankstack"]
 	path = .vim/bundle/vim-yankstack
 	url = https://github.com/maxbrunsfeld/vim-yankstack.git
+[submodule ".vim/bundle/vim-matchit"]
+	path = .vim/bundle/vim-matchit
+	url = https://github.com/Spaceghost/vim-matchit.git
