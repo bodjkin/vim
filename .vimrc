@@ -92,12 +92,17 @@ set smartcase                   " ... unless they contain at least one capital l
 set gdefault                    " have :s///g flag by default on
 
 "" Custom key bindings
-  "" make sure no spaces before " or you get unexpected behavior
-inoremap kj <Esc>" press kj to escape in insert mode :)
-vnoremap kj <Esc>" press kj to escape in visual mode :)
-nnoremap zs ZZ" close and save
-nnoremap zx ZQ" close without saving
-nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
+  " don't put comments at the end of the line or your screen will eat your face
+  " press kj to escape in insert mode :)
+inoremap <silent> kj <Esc>
+  " press kj to escape in visual mode :)
+vnoremap <silent> kj <Esc>
+  " close and save
+nnoremap <silent> zs ZZ
+  " close without saving
+nnoremap <silent> zx ZQ
+  " save - seriously, who uses "s" by itself?
+nnoremap <silent> s :w<cr>
   " To enable Alt / Meta keys
   " Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
   " ^[ is Alt / <M>
