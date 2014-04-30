@@ -43,9 +43,11 @@ set number                      " show line numbers
 set showcmd                     " display incomplete commands
 set ruler                       " show the cursor position all the time
 set cursorline                  " highlight the line of the cursor
-set scrolloff=5 " keep at least 5 lines above/below
-set sidescrolloff=5 " keep at least 5 lines left/right
-set ttyfast " better drawing because this is a fast terminal
+set scrolloff=5                 " keep at least 5 lines above/below
+set sidescrolloff=5             " keep at least 5 lines left/right
+set ttyfast                     " better drawing because this is a fast terminal
+set visualbell                  " No sounds
+set history=1000                " Store lots of :cmdline history
 
 "" Whitespace
 "" set nowrap                   " don't wrap lines
@@ -63,6 +65,21 @@ set hidden                      " allow backgrounding buffers without writing
 set autoread                    " auto-reload buffers when file changed on disk
 set wildignorecase              " ignore case when using :e to open a file
 
+" ================ Completion =======================
+
+set wildmode=list:longest
+set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+
 "" Backups
 set backupdir=~/.tmp
 
@@ -71,21 +88,20 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-:nnoremap <CR> :nohlsearch<cr>  " turn off search highlighting after search
+:nnoremap <CR> :nohlsearch<cr>" turn off search highlighting after search
 set gdefault                    " have :s///g flag by default on
 
 "" Custom key bindings
-"" make sure no spaces before " or you get unexpected behavior
+  "" make sure no spaces before " or you get unexpected behavior
 inoremap kj <Esc>" press kj to escape in insert mode :)
 vnoremap kj <Esc>" press kj to escape in visual mode :)
 nnoremap zs ZZ" close and save
 nnoremap zx ZQ" close without saving
-" To enable Alt / Meta keys
-" Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
-" ^[ is Alt / <M>
-" To get the ^[ press Ctrl-V and Ctrl-[ 
 nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
-"nnoremap JJJJ <Nop> " not sure what function this serves
+  " To enable Alt / Meta keys
+  " Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
+  " ^[ is Alt / <M>
+  " To get the ^[ press Ctrl-V and Ctrl-[ 
 
 " Create blank newlines and stay in Normal mode
 nnoremap <silent> zj o<Esc>
@@ -102,3 +118,12 @@ while c <= 'z'
   exec "imap \e".c." <M-".toupper(c).">"
   let c = nr2char(1+char2nr(c))
 endw
+
+" Syntastic settings
+" npm install -g jshint
+" >> Silent fail means the "node" in your $PATH is incorrect!
+" pear install PHP_CodeSniffer
+" >> phpcs is the cli usage
+let g:syntastic_check_on_open=1
+let g:syntastic_javascript_checkers=['jshint']
+let g:syntastic_javascript_jshint_conf='~/.jshintrc'
