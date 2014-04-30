@@ -77,9 +77,11 @@ set gdefault                    " have :s///g flag by default on
 "" Awesomeness - make sure no spaces before " or you get unexpected behavior
 inoremap kj <Esc>" press kj to escape in insert mode :)
 vnoremap kj <Esc>" press kj to escape in visual mode :)
-nnoremap zs ZZ " close and save
-nnoremap zx ZQ " close without saving
-nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
+nnoremap zs ZZ" close and save
+nnoremap zx ZQ" close without saving
+" Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
+" Strange looking character is Alt / <M>
+nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
 "nnoremap JJJJ <Nop> " not sure what function this serves
 
 " Create blank newlines and stay in Normal mode
