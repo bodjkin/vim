@@ -88,7 +88,8 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-:nnoremap <CR> :nohlsearch<cr>" turn off search highlighting after search
+  " turn off search highlighting after search
+:nnoremap <CR> :nohlsearch<cr>
 set gdefault                    " have :s///g flag by default on
 
 "" Custom key bindings
