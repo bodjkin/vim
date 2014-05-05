@@ -1,3 +1,5 @@
+" Basic Settings
+"============================================================================"
 execute pathogen#infect()
 set t_Co=256
 set nocp
@@ -7,11 +9,16 @@ filetype plugin indent on
 set background=dark
 colorscheme tomokai
 
-" powerline 
+
+" Powerline 
+"============================================================================"
 " if you have to get it from github again,
 " https://github.com/Lokaltog/powerline
 set rtp+=~/.vim/powerline/powerline/bindings/vim
 
+
+" NERDTree
+"============================================================================"
 "" Better NERDTree
 let mapleader = ","
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
@@ -20,7 +27,9 @@ let g:nerdtree_tabs_open_on_console_startup=1 " does not seem to be working...
 "" Show hidden files in NERDTree
 let NERDTreeShowHidden=1
 
+
 "" Relative line numbering
+"============================================================================"
 function! NumberToggle()
   if(&relativenumber == 1)
     set number
@@ -38,7 +47,9 @@ autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 autocmd BufReadPost * :set relativenumber
 
-"" Display options
+
+" Display options
+"============================================================================"
 set number                      " show line numbers
 set showcmd                     " display incomplete commands
 set ruler                       " show the cursor position all the time
@@ -49,14 +60,21 @@ set ttyfast                     " better drawing because this is a fast terminal
 set visualbell                  " No sounds
 set history=1000                " Store lots of :cmdline history
 
-"" Whitespace
+
+" Whitespace
+"============================================================================"
 "" set nowrap                   " don't wrap lines
 set tabstop=2                   " a tab is two spaces
 set shiftwidth=2                " an autoindent is two spaces
 set expandtab                   " use spaces, not tabs
 set backspace=indent,eol,start  " backspace through everything in insert mode
+" Create blank newlines and stay in Normal mode
+nnoremap <silent> zj o<Esc>
+nnoremap <silent> zk O<Esc>
 
-"" Buffers
+
+" Buffers
+"============================================================================"
 " Switch back and forth between buffers easily
 map <C-j> :bprev<CR>
 map <C-k> :bnext<CR>
@@ -65,8 +83,9 @@ set hidden                      " allow backgrounding buffers without writing
 set autoread                    " auto-reload buffers when file changed on disk
 set wildignorecase              " ignore case when using :e to open a file
 
-" ================ Completion =======================
 
+" Completion
+"============================================================================"
 set wildmode=list:longest
 set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
@@ -80,36 +99,50 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 
-"" Backups
+
+" Backups
+"============================================================================"
 set backupdir=~/.tmp
 
-"" Searching
+
+" Searching
+"============================================================================"
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-:nnoremap <CR> :nohlsearch<cr>" turn off search highlighting after search
 set gdefault                    " have :s///g flag by default on
-
-"" Custom key bindings
-  "" make sure no spaces before " or you get unexpected behavior
-inoremap kj <Esc>" press kj to escape in insert mode :)
-vnoremap kj <Esc>" press kj to escape in visual mode :)
-nnoremap zs ZZ" close and save
-nnoremap zx ZQ" close without saving
-nnoremap s :w<cr>" save - seriously, who uses "s" by itself?
-  " To enable Alt / Meta keys
-  " Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
-  " ^[ is Alt / <M>
-  " To get the ^[ press Ctrl-V and Ctrl-[ 
-
-" Create blank newlines and stay in Normal mode
-nnoremap <silent> zj o<Esc>
-nnoremap <silent> zk O<Esc>
-
+" turn off search highlighting after search by pressing Return/Enter
+:nnoremap <CR> :nohlsearch<cr>
 " Search mappings: going to next item in search will center on it
 map N Nzz
 map n nzz
+
+
+" Custom key bindings
+"============================================================================"
+"" make sure no spaces before " or you get unexpected behavior
+" To enable Alt / Meta keys in Gnome terminal
+" Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
+" ^[ is Alt / <M>
+" To get the ^[ press Ctrl-V and Ctrl-[ 
+
+" ditch repeated keystrokes
+nnoremap dl dd
+nnoremap yl yy
+nnoremap zl zz
+" press kj to escape in insert/visual mode :)
+inoremap kj <Esc>
+vnoremap kj <Esc>
+" close and save
+nnoremap zs ZZ
+" close without saving
+nnoremap zx ZQ
+" save
+nnoremap s :w<cr>
+" pastetoggle
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
 
 " fix meta-keys which generate <Esc>a .. <Esc>z
 let c='a'
@@ -119,11 +152,22 @@ while c <= 'z'
   let c = nr2char(1+char2nr(c))
 endw
 
+
 " Syntastic settings
+"============================================================================"
 " npm install -g jshint
 " >> Silent fail means the "node" in your $PATH is incorrect!
-" pear install PHP_CodeSniffer
-" >> phpcs is the cli usage
-let g:syntastic_check_on_open=1
+
+" Don't do it by default on file open; this can be very slow
+let g:syntastic_check_on_open=0
+
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_javascript_jshint_conf='~/.jshintrc'
+" pear install PHP_CodeSniffer
+" >> phpcs is the cli usage
+let g:syntastic_php_checkers=['phpcs']
+" gem install rubocop
+let g:syntastic_ruby_checkers=['rubocop']
+
+" Turn off Syntastic when it's annoying
+nnoremap <silent> st :SyntasticToggleMode<cr>
