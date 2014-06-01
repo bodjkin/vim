@@ -1,26 +1,126 @@
+" Bundles
+"============================================================================"
+set nocp
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+
+  " Required:
+  set runtimepath+=/home/thomas/.vim/bundle/neobundle.vim/
+endif
+
+" Required
+call neobundle#begin(expand('/home/thomas/.vim/bundle'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" vimproc
+let vimproc_updcmd = has('win64') ?
+      \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
+execute "NeoBundle 'Shougo/vimproc.vim'," . string({
+      \ 'build' : {
+      \     'windows' : vimproc_updcmd,
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ })
+
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'jistr/vim-nerdtree-tabs'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-surround'
+
+" Not sure how this doesn't conflict with neobundle but it seems ok
+" Airline doesn't work without this, others may not as well
+execute pathogen#infect()
+
+call neobundle#end()
+
+syntax on
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+
+
 " Basic Settings
 "============================================================================"
-execute pathogen#infect()
 set t_Co=256
-set nocp
-set nocompatible                " choose no compatibility with legacy vi
-syntax on
-filetype plugin indent on
 set background=dark
 colorscheme tomokai
 
+" Remap leader
+let mapleader = ","
 
-" Powerline 
+" show the status bar
+set laststatus=2
+
+
+" Unite
+" ============================================================================"
+" Use quick-match gratuitously
+let g:unite_source_rec_unit = 250
+let g:unite_prompt = '» '
+let g:unite_kind_file_vertical_preview = 1
+call unite#custom#source('file_rec/async', 'ignore_pattern', '\.sass-cache')
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+" Fuzzy file searching
+" --------------------
+" >>> Open in existing buffer
+nnoremap <space>o :Unite -no-split -start-insert -auto-preview file_rec/async<cr>
+" >>> Open horizontal split, new file on top
+nnoremap <space>k :Unite -no-split -start-insert file_rec/async -default-action=split<cr>
+" >>> Open horizontal split, new file on bottom
+nnoremap <space>j :Unite -no-split -start-insert file_rec/async -default-action=below<cr>
+" >>> Open vertical split, new file on left
+nnoremap <space>h :Unite -no-split -start-insert file_rec/async -default-action=vsplit<cr>
+" >>> Open vertical split, new file on right
+nnoremap <space>l :Unite -no-split -start-insert file_rec/async -default-action=right<cr>
+
+" Content searching
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+nnoremap <space>/ :Unite -quick-match grep:.<cr>
+
+" Yank history
+let g:unite_source_history_yank_enable = 1
+nnoremap <space>y :Unite -quick-match history/yank<cr>
+
+" Buffer switching
+nnoremap <space>s :Unite -quick-match buffer<cr>
+
+
+" Airline
 "============================================================================"
-" if you have to get it from github again,
-" https://github.com/Lokaltog/powerline
-set rtp+=~/.vim/powerline/powerline/bindings/vim
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='tomokai'
 
 
 " NERDTree
 "============================================================================"
 "" Better NERDTree
-let mapleader = ","
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_open_on_console_startup=1 " does not seem to be working...
 
@@ -30,16 +130,6 @@ let NERDTreeShowHidden=1
 
 "" Relative line numbering
 "============================================================================"
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <C-n> :call NumberToggle()<cr>
-
 :au FocusLost * :set number
 :au FocusGained * :set relativenumber
 
@@ -59,6 +149,8 @@ set sidescrolloff=5             " keep at least 5 lines left/right
 set ttyfast                     " better drawing because this is a fast terminal
 set visualbell                  " No sounds
 set history=1000                " Store lots of :cmdline history
+set display+=lastline           " show as much as possible of last line in window
+set tabpagemax=50
 
 
 " Whitespace
@@ -71,23 +163,59 @@ set backspace=indent,eol,start  " backspace through everything in insert mode
 " Create blank newlines and stay in Normal mode
 nnoremap <silent> zj o<Esc>
 nnoremap <silent> zk O<Esc>
+" Nuke whitespace at EOL
+:nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 
 " Buffers
 "============================================================================"
 " Switch back and forth between buffers easily
-map <C-j> :bprev<CR>
-map <C-k> :bnext<CR>
+map <C-h> :bprev<CR>
+map <C-l> :bnext<CR>
 set hidden                      " allow backgrounding buffers without writing
                                 " remember marks/undo for background buffers
 set autoread                    " auto-reload buffers when file changed on disk
 set wildignorecase              " ignore case when using :e to open a file
 
 
-" Completion
+" Completion / Neocomplete
 "============================================================================"
-set wildmode=list:longest
-set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
+" Disable AutoComplPop
+let g:acp_enableAtStartup = 0
+" Use neocomplete
+let g:neocomplete#enable_at_startup = 1
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+
+" <TAB>: completion.
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Use smartcase
+let g:neocomplete#enable_smart_case = 1
+
+" Enable omni completion.
+autocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" set wildmode=list:longest
+" set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
@@ -131,15 +259,29 @@ map n nzz
 nnoremap dl dd
 nnoremap yl yy
 nnoremap zl zz
-" press kj to escape in insert/visual mode :)
+nnoremap gl gg
+" mash j and k together to escape in insert mode (order doesn't matter)
 inoremap kj <Esc>
-vnoremap kj <Esc>
+inoremap jk <Esc>
+
 " close and save
 nnoremap zs ZZ
+" close and save everything
+nnoremap za :wqa<cr>
 " close without saving
 nnoremap zx ZQ
+" close current buffer
+nnoremap zd :BD<cr>
+
+" Emacs-style bindings for splits
+" But make it faster and switch by default if splitting
+nnoremap <space>1 <C-w>o
+nnoremap <space>2 :split<cr><C-^>
+nnoremap <space>3 :vsplit<cr><C-^>
+
 " save
 nnoremap s :w<cr>
+
 " pastetoggle
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -155,17 +297,18 @@ endw
 
 " Syntastic settings
 "============================================================================"
-" npm install -g jshint
-" >> Silent fail means the "node" in your $PATH is incorrect!
-
-" Don't do it by default on file open; this can be very slow
+" Don't run by default on file open; this can be very slow
 let g:syntastic_check_on_open=0
 
+" Checkers and configuration -------------------------------------------
+" npm install -g jshint # Silent fail means the "node" in your $PATH is incorrect!
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_javascript_jshint_conf='~/.jshintrc'
+
 " pear install PHP_CodeSniffer
 " >> phpcs is the cli usage
 let g:syntastic_php_checkers=['phpcs']
+
 " gem install rubocop
 let g:syntastic_ruby_checkers=['rubocop']
 
