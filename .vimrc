@@ -1,6 +1,5 @@
 " Bundles
 "============================================================================"
-set nocp
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
@@ -39,6 +38,7 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
 
 " Not sure how this doesn't conflict with neobundle but it seems ok
 " Airline doesn't work without this, others may not as well
@@ -81,7 +81,7 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Fuzzy file searching
 " --------------------
 " >>> Open in existing buffer
-nnoremap <space>o :Unite -no-split -start-insert -auto-preview file_rec/async<cr>
+nnoremap <space>o :Unite -no-split -start-insert file_rec/async<cr>
 " >>> Open horizontal split, new file on top
 nnoremap <space>k :Unite -no-split -start-insert file_rec/async -default-action=split<cr>
 " >>> Open horizontal split, new file on bottom
@@ -151,6 +151,7 @@ set visualbell                  " No sounds
 set history=1000                " Store lots of :cmdline history
 set display+=lastline           " show as much as possible of last line in window
 set tabpagemax=50
+au BufWinEnter * normal zR
 
 
 " Whitespace
@@ -270,6 +271,8 @@ nnoremap zs ZZ
 nnoremap za :wqa<cr>
 " close without saving
 nnoremap zx ZQ
+" close everything without saving
+nnoremap zq :qa!<cr>
 " close current buffer
 nnoremap zd :BD<cr>
 
