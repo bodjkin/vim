@@ -70,6 +70,13 @@ let mapleader = ","
 " show the status bar
 set laststatus=2
 
+" make system clipboard the default
+if has ('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+
 
 " Unite
 " ============================================================================"
@@ -154,6 +161,14 @@ set history=1000                " Store lots of :cmdline history
 set display+=lastline           " show as much as possible of last line in window
 set tabpagemax=50
 au BufWinEnter * normal zR
+
+
+" Multicursor options
+"============================================================================"
+" Go back to normal mode with multiple cursors instead of leaving 
+" multicursor mode entirely
+let g:multi_cursor_exit_from_visual_mode = 0
+let g:multi_cursor_exit_from_insert_mode = 0
 
 
 " Whitespace
