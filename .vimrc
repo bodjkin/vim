@@ -30,6 +30,7 @@ NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-commentary'
@@ -39,6 +40,7 @@ NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'kris89/vim-multiple-cursors'
 
 " Not sure how this doesn't conflict with neobundle but it seems ok
 " Airline doesn't work without this, others may not as well
@@ -254,7 +256,7 @@ map n nzz
 " To enable Alt / Meta keys in Gnome terminal
 " Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
 " ^[ is Alt / <M>
-" To get the ^[ press Ctrl-V and Ctrl-[ 
+" To get the ^[ press Ctrl-V and Ctrl-[
 
 " ditch repeated keystrokes
 nnoremap dl dd
