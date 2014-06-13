@@ -65,7 +65,8 @@ set background=dark
 colorscheme tomokai
 
 " Remap leader
-let mapleader = ","
+" let mapleader = ","
+let mapleader = "s"
 
 " show the status bar
 set laststatus=2
@@ -190,6 +191,8 @@ nnoremap <silent> zk O<Esc>
 " Switch back and forth between buffers easily
 map <C-h> :bprev<CR>
 map <C-l> :bnext<CR>
+map <Leader>h :bprev<CR>
+map <Leader>l :bnext<CR>
 set hidden                      " allow backgrounding buffers without writing
                                 " remember marks/undo for background buffers
 set autoread                    " auto-reload buffers when file changed on disk
