@@ -136,6 +136,7 @@ let g:airline_theme='tomokai'
 " Swapfile is disabled to prevent heavy disk I/O
 set updatetime=100
 nnoremap <silent> <space>t :TagbarToggle<CR>
+nnoremap <silent> <leader>f :TagbarOpenAutoClose<CR>
 " Haskell support
 let g:tagbar_type_haskell = {
     \ 'ctagsbin'  : 'hasktags',
@@ -203,14 +204,6 @@ set history=1000                " Store lots of :cmdline history
 set display+=lastline           " show as much as possible of last line in window
 set tabpagemax=50
 au BufWinEnter * normal zR
-
-
-" Multicursor options
-"============================================================================"
-" Go back to normal mode with multiple cursors instead of leaving 
-" multicursor mode entirely
-let g:multi_cursor_exit_from_visual_mode = 0
-let g:multi_cursor_exit_from_insert_mode = 0
 
 
 " Whitespace
