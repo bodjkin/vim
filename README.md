@@ -1,6 +1,15 @@
 vim
 ===
 
+Warning:
+-------
+ - No swapfile
+
+Tagbar Dependencies:
+-------
+ - Exuberant Ctags
+ - hasktags (available via cabal)
+
 Install:
 -------
  - Manually install Shougo/neobundle.vim into the bundle directory

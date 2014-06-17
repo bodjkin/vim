@@ -40,7 +40,7 @@ NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'kris89/vim-multiple-cursors'
+NeoBundle 'majutsushi/tagbar'
 
 " Not sure how this doesn't conflict with neobundle but it seems ok
 " Airline doesn't work without this, others may not as well
@@ -64,8 +64,10 @@ set t_Co=256
 set background=dark
 colorscheme tomokai
 
+" No swapfile so that we can run a very low updatetime
+set noswapfile
+
 " Remap leader
-" let mapleader = ","
 let mapleader = "s"
 
 " show the status bar
@@ -127,6 +129,45 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='tomokai'
 
+
+" Tagbar
+"============================================================================"
+" Reduce the updatetime for faster feedback in tagbar. Default = 4000
+" Swapfile is disabled to prevent heavy disk I/O
+set updatetime=100
+nnoremap <silent> <space>t :TagbarToggle<CR>
+" Haskell support
+let g:tagbar_type_haskell = {
+    \ 'ctagsbin'  : 'hasktags',
+    \ 'ctagsargs' : '-x -c -o-',
+    \ 'kinds'     : [
+        \  'm:modules:0:1',
+        \  'd:data: 0:1',
+        \  'd_gadt: data gadt:0:1',
+        \  't:type names:0:1',
+        \  'nt:new types:0:1',
+        \  'c:classes:0:1',
+        \  'cons:constructors:1:1',
+        \  'c_gadt:constructor gadt:1:1',
+        \  'c_a:constructor accessors:1:1',
+        \  'ft:function types:1:1',
+        \  'fi:function implementations:0:1',
+        \  'o:others:0:1'
+    \ ],
+    \ 'sro'        : '.',
+    \ 'kind2scope' : {
+        \ 'm' : 'module',
+        \ 'c' : 'class',
+        \ 'd' : 'data',
+        \ 't' : 'type'
+    \ },
+    \ 'scope2kind' : {
+        \ 'module' : 'm',
+        \ 'class'  : 'c',
+        \ 'data'   : 'd',
+        \ 'type'   : 't'
+    \ }
+\ }
 
 " NERDTree
 "============================================================================"
@@ -337,3 +378,15 @@ let g:syntastic_ruby_checkers=['rubocop']
 
 " Turn off Syntastic when it's annoying
 nnoremap <silent> st :SyntasticToggleMode<cr>
+
+" Toggle error list
+function! ToggleErrors()
+    if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
+         " No location/quickfix list shown, open syntastic error location panel
+         Errors
+    else
+        lclose
+    endif
+endfunction
+
+nnoremap <silent> <Leader>e :<C-u>call ToggleErrors()<CR>
