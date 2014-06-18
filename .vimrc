@@ -66,6 +66,7 @@ colorscheme tomokai
 
 " No swapfile so that we can run a very low updatetime
 set noswapfile
+set nobackup
 
 " Remap leader
 let mapleader = "s"
