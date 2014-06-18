@@ -197,6 +197,7 @@ set number                      " show line numbers
 set showcmd                     " display incomplete commands
 set ruler                       " show the cursor position all the time
 set cursorline                  " highlight the line of the cursor
+set cursorcolumn                " highlight the line of the cursor
 set scrolloff=5                 " keep at least 5 lines above/below
 set sidescrolloff=5             " keep at least 5 lines left/right
 set ttyfast                     " better drawing because this is a fast terminal
@@ -209,9 +210,9 @@ au BufWinEnter * normal zR
 
 " Whitespace
 "============================================================================"
-"" set nowrap                   " don't wrap lines
 set tabstop=2                   " a tab is two spaces
 set shiftwidth=2                " an autoindent is two spaces
+" Use :retab to change tab characters to spaces
 set expandtab                   " use spaces, not tabs
 set backspace=indent,eol,start  " backspace through everything in insert mode
 " Create blank newlines and stay in Normal mode
