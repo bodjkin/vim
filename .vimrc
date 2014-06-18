@@ -370,7 +370,7 @@ let g:syntastic_php_checkers=['phpcs']
 let g:syntastic_ruby_checkers=['rubocop']
 
 " Turn off Syntastic when it's annoying
-nnoremap <silent> st :SyntasticToggleMode<cr>
+nnoremap <silent> <leader>y :SyntasticToggleMode<cr>
 
 " Toggle error list
 function! ToggleErrors()
