@@ -52,6 +52,7 @@
   NeoBundle 'pangloss/vim-javascript'
   NeoBundle 'sjl/gundo.vim'
   NeoBundle 'mattn/emmet-vim'
+  NeoBundle 'derekwyatt/vim-scala'
 
   " Not sure how this doesn't conflict with neobundle but it seems ok
   " Airline doesn't work without this, others may not as well
@@ -91,6 +92,12 @@
     else
       set clipboard=unnamed
     endif
+
+  " Jump to the lsat known cursor position automatically
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
 
 
 " Unite
