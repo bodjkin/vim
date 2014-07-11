@@ -245,8 +245,8 @@
 " Buffers
 "============================================================================"
   " Switch back and forth between buffers easily
-    map <C-h> :bprev<CR>
-    map <C-l> :bnext<CR>
+    map <C-p> :bprev<CR>
+    map <C-n> :bnext<CR>
     map <Leader>h :bprev<CR>
     map <Leader>l :bnext<CR>
   " allow backgrounding buffers without writing
@@ -366,10 +366,10 @@
     nnoremap <space>3 :vsplit<cr><C-^>
 
   " Split navigation
-    nnoremap <C-J> <C-w>j
-    nnoremap <C-K> <C-w>k
-    nnoremap <C-H> <C-w>h
-    nnoremap <C-L> <C-w>l
+    nnoremap <C-j> <C-w>j
+    nnoremap <C-k> <C-w>k
+    nnoremap <C-h> <C-w>h
+    nnoremap <C-l> <C-w>l
 
   " save
     nnoremap s :w<cr>
