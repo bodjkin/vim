@@ -42,17 +42,10 @@
   NeoBundle 'tpope/vim-surround'
   NeoBundle 'tpope/vim-unimpaired'
   NeoBundle 'majutsushi/tagbar'
-  NeoBundle 'mustache/vim-mustache-handlebars'
   NeoBundle 'Lokaltog/vim-easymotion'
-  NeoBundle 'hail2u/vim-css3-syntax'
-  NeoBundle 'ZoomWin'
-  NeoBundle 'tyru/open-browser.vim'
-  NeoBundle 'Yggdroot/indentLine'
   NeoBundle 'ap/vim-css-color'
   NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'sjl/gundo.vim'
   NeoBundle 'mattn/emmet-vim'
-  NeoBundle 'derekwyatt/vim-scala'
 
   " Not sure how this doesn't conflict with neobundle but it seems ok
   " Airline doesn't work without this, others may not as well
@@ -103,24 +96,24 @@
 " Unite
 " ============================================================================"
   " Use quick-match gratuitously
-    let g:unite_source_rec_unit = 250
+    let g:unite_source_rec_unit = 100
     let g:unite_prompt = '» '
-    let g:unite_kind_file_vertical_preview = 1
-    call unite#custom#source('file_rec/async', 'ignore_pattern', '\.sass-cache')
+    " let g:unite_kind_file_vertical_preview = 1
+    call unite#custom#source('file_rec', 'ignore_pattern', '\.sass-cache\|\.git')
     call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
   " Fuzzy file searching
   " --------------------
   " >>> Open in existing buffer
-    nnoremap <space>o :Unite -no-split -start-insert file_rec/async<cr>
+    nnoremap <space>o :Unite -no-split -start-insert file_rec<cr>
   " >>> Open horizontal split, new file on top
-    nnoremap <space>k :Unite -no-split -start-insert file_rec/async -default-action=split<cr>
+    nnoremap <space>k :Unite -no-split -start-insert file_rec -default-action=split<cr>
   " >>> Open horizontal split, new file on bottom
-    nnoremap <space>j :Unite -no-split -start-insert file_rec/async -default-action=below<cr>
+    nnoremap <space>j :Unite -no-split -start-insert file_rec -default-action=below<cr>
   " >>> Open vertical split, new file on left
-    nnoremap <space>h :Unite -no-split -start-insert file_rec/async -default-action=vsplit<cr>
+    nnoremap <space>h :Unite -no-split -start-insert file_rec -default-action=vsplit<cr>
   " >>> Open vertical split, new file on right
-    nnoremap <space>l :Unite -no-split -start-insert file_rec/async -default-action=right<cr>
+    nnoremap <space>l :Unite -no-split -start-insert file_rec -default-action=right<cr>
 
   " Content searching
     if executable('ag')
@@ -140,6 +133,15 @@
 
   " Buffer switching
     nnoremap <space>s :Unite -quick-match buffer<cr>
+
+  " Custom mappings for the unite buffer
+  autocmd FileType unite call s:unite_settings()
+  function! s:unite_settings()
+    " Enable navigation with <C-j> and <C-k> in insert mode
+    imap <buffer> <C-j> <Plug>(unite_select_next_line)
+    imap <buffer> <C-k> <Plug>(unite_select_previous_line)
+    imap <buffer> <Esc> <Plug>(unite_exit)
+  endfunction
 
 
 " Airline
@@ -262,14 +264,14 @@
     let g:acp_enableAtStartup = 0
   " Use neocomplete
     let g:neocomplete#enable_at_startup = 1
+  " Set minimum keyword length
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
 
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
       return neocomplete#close_popup() . "\<CR>"
-      " For no inserting <CR> key.
-      "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
     endfunction
 
   " <TAB>: completion.
@@ -280,10 +282,14 @@
 
   " Enable omni completion.
     autocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+  " Don't use omnifunc=htmlcomplete#CompleteTags with html; it lags badly in
+  " mixed html/js. Use empty instead
+    autocmd FileType html setlocal omnifunc=
 
   " Enable heavy omni completion.
     if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -359,6 +365,12 @@
     nnoremap <space>2 :split<cr><C-^>
     nnoremap <space>3 :vsplit<cr><C-^>
 
+  " Split navigation
+    nnoremap <C-J> <C-w>j
+    nnoremap <C-K> <C-w>k
+    nnoremap <C-H> <C-w>h
+    nnoremap <C-L> <C-w>l
+
   " save
     nnoremap s :w<cr>
 
@@ -419,32 +431,6 @@
 
   " Turn on case sensitive feature
     let g:EasyMotion_smartcase = 1
-
-
-" Openbrowser
-"============================================================================"
-  " If it looks like URI, Open URI under cursor.
-  " Otherwise, Search word under cursor.
-    nmap go <Plug>(openbrowser-smart-search)
-  " If it looks like URI, Open selected URI.
-  " Otherwise, Search selected word.
-  " TODO: test todos
-    vmap go <Plug>(openbrowser-smart-search)
-
-
-" Enable Mustache Abbreviations
-"============================================================================"
-  let g:mustache_abbreviations=1
-
-
-" Indent Line Color
-"============================================================================"
-  let g:indentLine_color_term = 236
-
-
-" Gundo Tree
-"============================================================================"
-  nnoremap <F4> :GundoToggle<CR>
 
 
 " Emmet
