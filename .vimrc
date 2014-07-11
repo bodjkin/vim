@@ -245,8 +245,8 @@
 " Buffers
 "============================================================================"
   " Switch back and forth between buffers easily
-    map <C-p> :bprev<CR>
-    map <C-n> :bnext<CR>
+    map <C-n> :bprev<CR>
+    map <C-p> :bnext<CR>
     map <Leader>h :bprev<CR>
     map <Leader>l :bnext<CR>
   " allow backgrounding buffers without writing
