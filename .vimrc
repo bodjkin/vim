@@ -46,6 +46,7 @@
   NeoBundle 'ap/vim-css-color'
   NeoBundle 'pangloss/vim-javascript'
   NeoBundle 'mattn/emmet-vim'
+  NeoBundle 'm2mdas/phpcomplete-extended'
 
   " Not sure how this doesn't conflict with neobundle but it seems ok
   " Airline doesn't work without this, others may not as well
@@ -86,11 +87,14 @@
       set clipboard=unnamed
     endif
 
-  " Jump to the lsat known cursor position automatically
+  " Jump to the last known cursor position automatically
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
+
+  " Nginx syntax highlighting
+    au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 
 
 " Unite
@@ -286,6 +290,7 @@
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
 
   " Don't use omnifunc=htmlcomplete#CompleteTags with html; it lags badly in
   " mixed html/js. Use empty instead
@@ -295,7 +300,7 @@
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
     endif
-    let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    " let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
     let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
   " set wildmode=list:longest
