@@ -1,17 +1,16 @@
 " Bundles
 "============================================================================"
   if has('vim_starting')
-    " Be iMproved
     set nocompatible
 
-    " required:
+    " required for bundly goodness:
     set runtimepath+=/home/thomas/.vim/bundle/neobundle.vim/
   endif
 
   " required
     call neobundle#begin(expand('/home/thomas/.vim/bundle'))
 
-  " Let NeoBundle manage NeoBundle
+  " Let NeoBundle manage itself
   " required:
     NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -27,12 +26,10 @@
           \    },
           \ })
 
-  NeoBundle 'Shougo/neomru.vim'
   NeoBundle 'scrooloose/syntastic'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'Shougo/neocomplete.vim'
   NeoBundle 'Shougo/vimshell.vim'
   NeoBundle 'bling/vim-airline'
+  NeoBundle 'bling/vim-bufferline'
   NeoBundle 'altercation/vim-colors-solarized'
   NeoBundle 'tpope/vim-commentary'
   NeoBundle 'tpope/vim-fugitive'
@@ -47,9 +44,17 @@
   NeoBundle 'pangloss/vim-javascript'
   NeoBundle 'mattn/emmet-vim'
   NeoBundle 'm2mdas/phpcomplete-extended'
+  NeoBundle 'airblade/vim-gitgutter'
+  NeoBundle 'maxbrunsfeld/vim-yankstack'
+  NeoBundle 'ctrlpvim/ctrlp.vim'
+  NeoBundle 'Raimondi/delimitMate'
+  NeoBundle 'Valloric/YouCompleteMe'
+  NeoBundle 'marijnh/tern_for_vim'
+  " vim-misc is required for the colorscheme switcher
+  " NeoBundle 'xolox/vim-misc'
+  " NeoBundle 'xolox/vim-colorscheme-switcher'
 
-  " Not sure how this doesn't conflict with neobundle but it seems ok
-  " Airline doesn't work without this, others may not as well
+  " Airline doesn't work without this
     execute pathogen#infect()
 
     call neobundle#end()
@@ -69,6 +74,18 @@
   set t_Co=256
   set background=dark
   colorscheme tomokai
+
+  " Don't try to highlight lines longer than 800 characters.
+  set synmaxcol=800
+
+  function! ShowColourSchemeName()
+    try
+      echo g:colors_name
+    catch /^Vim:E121/
+      echo "default
+    endtry
+  endfunction
+  nnoremap <F9> :call ShowColourSchemeName()<cr>
 
   " No swapfile so that we can run a very low updatetime
     set noswapfile
@@ -93,59 +110,20 @@
     \   exe "normal g`\"" |
     \ endif
 
-  " Nginx syntax highlighting
+  " Non-standard syntax highlighting
     au BufRead,BufNewFile /etc/nginx/* set ft=nginx
+    autocmd BufNewFile,BufRead *.jsx   set syntax=javascript
+    autocmd BufNewFile,BufRead *.ejs   set syntax=html
 
 
-" Unite
-" ============================================================================"
-  " Use quick-match gratuitously
-    let g:unite_source_rec_unit = 100
-    let g:unite_prompt = '» '
-    " let g:unite_kind_file_vertical_preview = 1
-    call unite#custom#source('file_rec', 'ignore_pattern', '\.sass-cache\|\.git')
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-  " Fuzzy file searching
-  " --------------------
-  " >>> Open in existing buffer
-    nnoremap <space>o :Unite -no-split -start-insert file_rec<cr>
-  " >>> Open horizontal split, new file on top
-    nnoremap <space>k :Unite -no-split -start-insert file_rec -default-action=split<cr>
-  " >>> Open horizontal split, new file on bottom
-    nnoremap <space>j :Unite -no-split -start-insert file_rec -default-action=below<cr>
-  " >>> Open vertical split, new file on left
-    nnoremap <space>h :Unite -no-split -start-insert file_rec -default-action=vsplit<cr>
-  " >>> Open vertical split, new file on right
-    nnoremap <space>l :Unite -no-split -start-insert file_rec -default-action=right<cr>
-
-  " Content searching
-    if executable('ag')
-      let g:unite_source_grep_command='ag'
-      let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
-      let g:unite_source_grep_recursive_opt=''
-    elseif executable('ack')
-      let g:unite_source_grep_command='ack'
-      let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
-      let g:unite_source_grep_recursive_opt=''
-    endif
-    nnoremap <space>/ :Unite -quick-match grep:.<cr>
-
-  " Yank history
-    let g:unite_source_history_yank_enable = 1
-    nnoremap <space>y :Unite -quick-match history/yank<cr>
-
-  " Buffer switching
-    nnoremap <space>s :Unite -quick-match buffer<cr>
-
-  " Custom mappings for the unite buffer
-  autocmd FileType unite call s:unite_settings()
-  function! s:unite_settings()
-    " Enable navigation with <C-j> and <C-k> in insert mode
-    imap <buffer> <C-j> <Plug>(unite_select_next_line)
-    imap <buffer> <C-k> <Plug>(unite_select_previous_line)
-    imap <buffer> <Esc> <Plug>(unite_exit)
-  endfunction
+" CtrlP
+"============================================================================"
+  " Rebind
+    let g:ctrlp_map = '<c-i>'
+  " Set up files to ignore
+    let g:ctrlp_custom_ignore = '\vjsx-build|\.git'
+  " When picking multiple files with <c-z>, open them in buffers
+    let g:ctrlp_open_multiple_files = 'i'
 
 
 " Airline
@@ -153,6 +131,12 @@
   let g:airline#extensions#tabline#enabled = 1
   let g:airline_powerline_fonts = 1
   let g:airline_theme='tomokai'
+
+
+" Bufferline
+"============================================================================"
+  let g:bufferline_echo = 0
+  let g:bufferline_show_bufnr = 0
 
 
 " Tagbar
@@ -195,7 +179,7 @@
         \ }
     \ }
 
-    " TODO: test todos up here
+
 " NERDTree
 "============================================================================"
   "" Better NERDTree
@@ -245,6 +229,8 @@
   " Nuke whitespace at EOL
     :nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
+  let delimitMate_expand_cr=1
+
 
 " Buffers
 "============================================================================"
@@ -262,50 +248,11 @@
     set wildignorecase
 
 
-" Completion / Neocomplete
+" Completion
 "============================================================================"
-  " Disable AutoComplPop
-    let g:acp_enableAtStartup = 0
-  " Use neocomplete
-    let g:neocomplete#enable_at_startup = 1
-  " Set minimum keyword length
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-      return neocomplete#close_popup() . "\<CR>"
-    endfunction
-
-  " <TAB>: completion.
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-  " Use smartcase
-    let g:neocomplete#enable_smart_case = 1
-
-  " Enable omni completion.
-    autocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
-
-  " Don't use omnifunc=htmlcomplete#CompleteTags with html; it lags badly in
-  " mixed html/js. Use empty instead
-    autocmd FileType html setlocal omnifunc=
-
-  " Enable heavy omni completion.
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    " let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-  " set wildmode=list:longest
-  " set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
-    set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
+  " Tern
+    " let tern#is_show_argument_hints_enabled = 1
+    set wildignore=*.o,*.obj,*~
     set wildignore+=*vim/backups*
     set wildignore+=*sass-cache*
     set wildignore+=*DS_Store*
@@ -339,10 +286,6 @@
 " Custom key bindings
 "============================================================================"
   "" make sure no spaces before " or you get unexpected behavior
-  " To enable Alt / Meta keys in Gnome terminal
-  " Edit > Keyboard Shortcuts..., and uncheck "Enable menu access keys".
-  " ^[ is Alt / <M>
-  " To get the ^[ press Ctrl-V and Ctrl-[
 
   " ditch repeated keystrokes
     nnoremap dl dd
@@ -376,20 +319,24 @@
     nnoremap <C-h> <C-w>h
     nnoremap <C-l> <C-w>l
 
-  " save
-    nnoremap s :w<cr>
+  " Heresy (from Steve Losh's vimrc)
+    inoremap <c-a> <esc>I
+    inoremap <c-e> <esc>A
 
-  " pastetoggle
-    nnoremap <F2> :set invpaste paste?<CR>
-    set pastetoggle=<F2>
+  " Other goodies from Steve Losh's vimrc
+    noremap H ^
+    noremap L $
+    vnoremap L g_
 
-  " fix meta-keys which generate <Esc>a .. <Esc>z
-    let c='a'
-    while c <= 'z'
-      exec "set <M-".toupper(c).">=\e".c
-      exec "imap \e".c." <M-".toupper(c).">"
-      let c = nr2char(1+char2nr(c))
-    endw
+  " save with K
+    nnoremap K :w<cr>
+
+" Yankstack settings
+"============================================================================"
+  " Rotate yanks forward
+    nmap - <Plug>yankstack_substitute_older_paste
+  " Rotate yanks backward
+    nmap = <Plug>yankstack_substitute_newer_paste
 
 
 " Syntastic settings
@@ -430,7 +377,6 @@
   " Disable default mappings
 
   " Bi-directional find motion
-  " Jump to anywhere you want with minimal keystrokes, with just one key binding.
   " `;{char}{label}`
     nmap ; <Plug>(easymotion-s)
 
@@ -442,3 +388,19 @@
 "============================================================================"
   let g:user_emmet_install_global = 0
   autocmd FileType html,css,php,inc EmmetInstall
+
+
+" PHPcomplete
+"============================================================================"
+  let g:phpcomplete_index_composer_command = "composer"
+
+
+" Gui options
+"============================================================================"
+  set guifont=Droid\ Sans\ Mono\ 15
+  set wak=no " don't open the menu when I press 'alt'
+  set ghr=5
+
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=L  "remove left-hand scroll bar
