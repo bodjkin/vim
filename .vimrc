@@ -4,11 +4,11 @@
     set nocompatible
 
     " required for bundly goodness:
-    set runtimepath+=/home/thomas/.vim/bundle/neobundle.vim/
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
   endif
 
   " required
-    call neobundle#begin(expand('/home/thomas/.vim/bundle'))
+    call neobundle#begin(expand('~/.vim/bundle'))
 
   " Let NeoBundle manage itself
   " required:
@@ -26,36 +26,33 @@
           \    },
           \ })
 
-  NeoBundle 'scrooloose/syntastic'
-  NeoBundle 'Shougo/vimshell.vim'
-  NeoBundle 'bling/vim-airline'
-  NeoBundle 'bling/vim-bufferline'
-  NeoBundle 'altercation/vim-colors-solarized'
-  NeoBundle 'tpope/vim-commentary'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'tpope/vim-markdown'
-  NeoBundle 'jistr/vim-nerdtree-tabs'
-  NeoBundle 'tpope/vim-repeat'
-  NeoBundle 'tpope/vim-surround'
-  NeoBundle 'tpope/vim-unimpaired'
-  NeoBundle 'majutsushi/tagbar'
-  NeoBundle 'Lokaltog/vim-easymotion'
-  NeoBundle 'ap/vim-css-color'
-  NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'mattn/emmet-vim'
-  NeoBundle 'm2mdas/phpcomplete-extended'
-  NeoBundle 'airblade/vim-gitgutter'
-  NeoBundle 'maxbrunsfeld/vim-yankstack'
-  NeoBundle 'ctrlpvim/ctrlp.vim'
-  NeoBundle 'Raimondi/delimitMate'
-  NeoBundle 'Valloric/YouCompleteMe'
-  NeoBundle 'marijnh/tern_for_vim'
+  " Bundles
+    NeoBundle 'scrooloose/syntastic'
+    NeoBundle 'Shougo/vimshell.vim'
+    NeoBundle 'bling/vim-airline'
+    NeoBundle 'bling/vim-bufferline'
+    NeoBundle 'altercation/vim-colors-solarized'
+    NeoBundle 'tpope/vim-commentary'
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'tpope/vim-markdown'
+    NeoBundle 'jistr/vim-nerdtree-tabs'
+    NeoBundle 'tpope/vim-repeat'
+    NeoBundle 'tpope/vim-surround'
+    NeoBundle 'tpope/vim-unimpaired'
+    NeoBundle 'majutsushi/tagbar'
+    NeoBundle 'Lokaltog/vim-easymotion'
+    NeoBundle 'ap/vim-css-color'
+    NeoBundle 'pangloss/vim-javascript'
+    NeoBundle 'mattn/emmet-vim'
+    NeoBundle 'm2mdas/phpcomplete-extended'
+    NeoBundle 'airblade/vim-gitgutter'
+    NeoBundle 'maxbrunsfeld/vim-yankstack'
+    NeoBundle 'ctrlpvim/ctrlp.vim'
+    NeoBundle 'Raimondi/delimitMate'
+    NeoBundle 'Valloric/YouCompleteMe'
   " vim-misc is required for the colorscheme switcher
   " NeoBundle 'xolox/vim-misc'
   " NeoBundle 'xolox/vim-colorscheme-switcher'
-
-  " Airline doesn't work without this
-    execute pathogen#infect()
 
     call neobundle#end()
 
@@ -246,6 +243,12 @@
     set autoread
   " ignore case when using :e to open a file
     set wildignorecase
+  " Persistent undo
+    set undodir=~/.vim/undo/
+    if !isdirectory(expand(&undodir))
+      call mkdir(expand(&undodir), "p")
+    endif
+    set undofile
 
 
 " Completion
@@ -263,10 +266,8 @@
     set wildignore+=tmp/**
     set wildignore+=*.png,*.jpg,*.gif
 
-
-" Backups
-"============================================================================"
-  set backupdir=~/.tmp
+  " YouCompleteMe
+    let g:ycm_complete_in_comments = 1
 
 
 " Searching
@@ -292,6 +293,9 @@
     nnoremap yl yy
     nnoremap zl zz
     nnoremap gl gg
+    vnoremap gl gg
+  " duplicate line
+    nnoremap yp yyp
   " mash j and k together to escape in insert mode (order doesn't matter)
     inoremap kj <Esc>
     inoremap jk <Esc>
@@ -306,6 +310,15 @@
     nnoremap zq :qa!<cr>
   " close current buffer
     nnoremap zd :BD<cr>
+
+  " save with K
+    nnoremap K :w<cr>
+
+  " commenting shortcuts
+    map <Leader>/ <Plug>Commentary $
+  " sublime text-style commenting - you can press <c-/>
+  " <c-_> is what the terminal receives from <c-/>
+    map <c-_> <Plug>Commentary $
 
   " Emacs-style bindings for splits
   " But make it faster and switch by default if splitting
@@ -327,9 +340,9 @@
     noremap H ^
     noremap L $
     vnoremap L g_
+  " Keep the cursor in place while joining lines (uses z mark)
+    nnoremap J mzJ`z
 
-  " save with K
-    nnoremap K :w<cr>
 
 " Yankstack settings
 "============================================================================"
