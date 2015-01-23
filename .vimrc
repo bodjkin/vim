@@ -50,6 +50,10 @@
     NeoBundle 'ctrlpvim/ctrlp.vim'
     NeoBundle 'Raimondi/delimitMate'
     NeoBundle 'Valloric/YouCompleteMe'
+    NeoBundle 'rking/ag.vim'
+    NeoBundle 'PeterRincker/vim-argumentative'
+    NeoBundle 'kchmck/vim-coffee-script'
+    NeoBundle 'mxw/vim-jsx'
   " vim-misc is required for the colorscheme switcher
   " NeoBundle 'xolox/vim-misc'
   " NeoBundle 'xolox/vim-colorscheme-switcher'
@@ -179,11 +183,14 @@
 
 " NERDTree
 "============================================================================"
-  "" Better NERDTree
+  " Better NERDTree
     map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
-  "" Show hidden files in NERDTree
+  " Show hidden files in NERDTree
     let NERDTreeShowHidden=1
+
+  " Files to ignore
+    let NERDTreeIgnore=['jsx-build$']
 
 
 "" Relative line numbering
@@ -357,10 +364,12 @@
   " Don't run by default on file open; this can be very slow
     let g:syntastic_check_on_open=0
 
-  " Checkers and configuration -------------------------------------------
-  " npm install -g jshint # Silent fail means the "node" in your $PATH is incorrect!
-    let g:syntastic_javascript_checkers=['jshint']
-    let g:syntastic_javascript_jshint_conf='~/.jshintrc'
+  " Javascript checker sucks and I'm not going to waste time configuring a
+  "   slow checker
+    let g:syntastic_mode_map = { 'passive_filetypes': ['javascript'] }
+
+  " Don't run it when I'm trying to close a file......
+    let g:syntastic_check_on_wq = 0
 
   " pear install PHP_CodeSniffer
   " >> phpcs is the cli usage
@@ -386,8 +395,8 @@
 
 " Easymotion
 "============================================================================"
-  let g:EasyMotion_do_mapping = 0
   " Disable default mappings
+    let g:EasyMotion_do_mapping = 0
 
   " Bi-directional find motion
   " `;{char}{label}`
