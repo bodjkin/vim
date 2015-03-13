@@ -97,6 +97,9 @@ function unmark {
 function marks {
   ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 }
+alias j="jump"
+
+NVM_DIR="$HOME/.nvm/bin"; export NVM_DIR
 
 # Any other alias definitions.
 if [ -f ~/.bash_aliases ]; then
