@@ -182,10 +182,12 @@ if &t_Co > 255
    hi PreProc         ctermfg=118
    hi Question        ctermfg=81
    hi Repeat          ctermfg=161               cterm=bold
-   hi Search          ctermfg=253 ctermbg=66
+   " hi Search          ctermfg=253 ctermbg=66
+   hi Search          ctermfg=233 ctermbg=154
 
    " marks column
-   hi SignColumn      ctermfg=118 ctermbg=235
+   " hi SignColumn      ctermfg=118 ctermbg=235
+   hi SignColumn      ctermfg=118 ctermbg=232
    hi SpecialChar     ctermfg=161               cterm=bold
    hi SpecialComment  ctermfg=33                cterm=bold
    hi Special         ctermfg=81  ctermbg=232
@@ -210,10 +212,14 @@ if &t_Co > 255
    hi WarningMsg      ctermfg=231 ctermbg=238   cterm=bold
    hi WildMenu        ctermfg=81  ctermbg=16
 
-   hi Normal          ctermfg=231 ctermbg=233
+   " hi Normal          ctermfg=231 ctermbg=233
+   hi Normal          ctermfg=231 ctermbg=232
    hi Comment         ctermfg=33
-   hi CursorLine                  ctermbg=236   cterm=none
-   hi CursorColumn                ctermbg=236
-   hi LineNr          ctermfg=250 ctermbg=234
+   " hi CursorLine                  ctermbg=236   cterm=none
+   hi CursorLine                  ctermbg=233   cterm=none
+   " hi CursorColumn                ctermbg=236
+   hi CursorColumn                  ctermbg=233
+   " hi LineNr          ctermfg=250 ctermbg=233
+   hi LineNr          ctermfg=246 ctermbg=234
    hi NonText         ctermfg=250 ctermbg=234
 end

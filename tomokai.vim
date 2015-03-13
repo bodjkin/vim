@@ -28,25 +28,29 @@ let g:airline#themes#tomokai#palette = {}
 " to the dictionary.  The array is in the format:
 " [ guifg, guibg, ctermfg, ctermbg, opts ]. See "help attr-list" for valid
 " values for the "opt" value.
-let s:N1   = [ '#00005f' , '#ffff00' , 234 , 112 ]
-let s:N2   = [ '#ffffff' , '#444444' , 253 , 238 ]
-let s:N3   = [ '#9cffd3' , '#202020' , 118 , 234 ]
+let s:N1   = [ '#00005f' , '#ffff00' , 196 , 232 ]
+let s:N2   = [ '#ffffff' , '#444444' , 220 , 233 ]
+let s:N3   = [ '#9cffd3' , '#202020' , 226 , 234 ]
 let g:airline#themes#tomokai#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 
 " Here we define overrides for when the buffer is modified.  This will be
 " applied after g:airline#themes#tomokai#palette.normal, hence why only certain keys are
 " declared.
+
+" This determines the color of a modified buffer when it's *not* highlighted
+" The names for things don't make a lot of sense to me.
 let g:airline#themes#tomokai#palette.normal_modified = {
-      \ 'airline_c': [ '#ffffff' , '#5f005f' , 255     , 53      , ''     ] ,
-      \ }
+      \ 'airline_c': [ '#ffffff' , '#5f005f' , 232     , 53, ''     ] ,
+      \  }
+    
 
-
-let s:I1 = [ '#00005f' , '#00dfff' , 17  , 45  ]
-let s:I2 = [ '#ffffff' , '#005fff' , 255 , 27  ]
-let s:I3 = [ '#ffffff' , '#000080' , 15  , 18 ]
+" s:I1 is the color used for a buffer title with changes
+let s:I1 = [ '#00005f' , '#00dfff' , 196 ,  52 ]
+let s:I2 = [ '#ffffff' , '#005fff' , 234 , 202 ]
+let s:I3 = [ '#ffffff' , '#000080' , 233 , 214 ]
 let g:airline#themes#tomokai#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
 let g:airline#themes#tomokai#palette.insert_modified = {
-      \ 'airline_c': [ '#ffffff' , '#5f005f' , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '#ffffff' , '#5f005f' , 233     , 190      , ''     ] ,
       \ }
 let g:airline#themes#tomokai#palette.insert_paste = {
       \ 'airline_a': [ s:I1[0]   , '#d78700' , s:I1[2] , 172     , ''     ] ,
@@ -64,8 +68,10 @@ let s:V2 = [ '#000000' , '#ff5f00' , 232 , 202 ]
 let s:V3 = [ '#ffffff' , '#5f0000' , 15  , 52  ]
 let g:airline#themes#tomokai#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
 let g:airline#themes#tomokai#palette.visual_modified = {
-      \ 'airline_c': [ '#ffffff' , '#5f005f' , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '#ffffff' , '#5f005f' , 255     , 190 , ''     ] ,
       \ }
+
+
 
 
 let s:IA1 = [ '#4e4e4e' , '#1c1c1c' , 239 , 234 , '' ]
@@ -100,4 +106,3 @@ let g:airline#themes#tomokai#palette.ctrlp = airline#extensions#ctrlp#generate_c
       \ [ '#d7d7ff' , '#5f00af' , 189 , 55  , ''     ],
       \ [ '#ffffff' , '#875fd7' , 231 , 98  , ''     ],
       \ [ '#5f00af' , '#ffffff' , 55  , 231 , 'bold' ])
-

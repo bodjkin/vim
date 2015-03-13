@@ -1,0 +1,85 @@
+# lodash faster
+snippet lo "lodash" b
+var _ = require('lodash');
+endsnippet
+
+snippet pr "new Promise" b
+return new Promise(function(resolve, reject) {
+	$1
+});
+endsnippet
+
+# module.exports as object
+# includes a function definition
+snippet xo "module.exports = {}" b
+module.exports = {
+	$1: function($2) {
+		$3
+	}, // $1
+}; // module.exports
+endsnippet
+
+# module.exports as a function
+snippet xf "module.exports = function()..." b
+module.exports = function($1) {
+	$2
+}; // module.exports
+endsnippet
+
+# Methods on object
+snippet m "Object method" b
+$1: function($2) {
+	$3
+}, // $1
+endsnippet
+
+# Functions
+snippet f "function" b
+function $1($2) {
+	$3
+} // $1
+endsnippet
+
+# Functions on classes (via prototype)
+snippet fp "functions on class prototypes" b
+$1.prototype.$2 = function($3) {
+	$4
+}; // $1.prototype.$2
+endsnippet
+
+# Require
+snippet r "var blah = require('blah')" b
+var $1 = require('$2$1');
+endsnippet
+
+# React functions
+# I almost always have react components in their own files
+snippet rcc "React.createClass" b
+var React = require('react');
+
+var $1 = React.createClass({
+	$2
+}); // $1
+
+module.exports = $1;
+endsnippet
+
+snippet getis "getInitialState (React function)" b
+getInitialState: function() {
+	return {
+		$1
+	};
+}, // getInitialState
+endsnippet
+
+snippet render "render (React function)" b
+render: function() {
+	return (
+		<${1:div}
+			$2
+			>
+			$3
+		</${1/(\w+).*/$1/}>
+	);
+}, // render
+endsnippet

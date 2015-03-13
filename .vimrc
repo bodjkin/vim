@@ -54,8 +54,12 @@
     NeoBundle 'PeterRincker/vim-argumentative'
     NeoBundle 'kchmck/vim-coffee-script'
     NeoBundle 'mxw/vim-jsx'
-  " vim-misc is required for the colorscheme switcher
-  " NeoBundle 'xolox/vim-misc'
+    NeoBundle 'tpope/vim-abolish'
+    NeoBundle 'SirVer/ultisnips'
+    NeoBundle 'honza/vim-snippets'
+    NeoBundle 'xolox/vim-misc'
+    NeoBundle 'xolox/vim-session'
+  " xolox/vim-misc is required for the colorscheme switcher
   " NeoBundle 'xolox/vim-colorscheme-switcher'
 
     call neobundle#end()
@@ -115,6 +119,11 @@
     au BufRead,BufNewFile /etc/nginx/* set ft=nginx
     autocmd BufNewFile,BufRead *.jsx   set syntax=javascript
     autocmd BufNewFile,BufRead *.ejs   set syntax=html
+
+  " Make the commandline window reopen to the same position after executing a command with <F5>
+    autocmd CmdwinEnter * nnoremap <buffer> <F5> :let g:CmdWindowLineMark=line(".")<CR><CR>q::execute "normal ".g:CmdWindowLineMark."G"<CR>
+  " Don't automatically insert comments
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 
 " CtrlP
@@ -327,6 +336,7 @@
   " <c-_> is what the terminal receives from <c-/>
     map <c-_> <Plug>Commentary $
 
+
   " Emacs-style bindings for splits
   " But make it faster and switch by default if splitting
     nnoremap <space>1 <C-w>o
@@ -393,6 +403,14 @@
     nnoremap <silent> <Leader>e :<C-u>call ToggleErrors()<CR>
 
 
+" Snippets
+"============================================================================"
+  " Trigger configuration
+    let g:UltiSnipsExpandTrigger="<c-j>"
+    let g:UltiSnipsJumpForwardTrigger="<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
 " Easymotion
 "============================================================================"
   " Disable default mappings
@@ -426,3 +444,16 @@
   set guioptions-=m  "remove menu bar
   set guioptions-=T  "remove toolbar
   set guioptions-=L  "remove left-hand scroll bar
+
+" Sessions
+"============================================================================"
+  let g:session_autosave='no'
+  " Spaces after the commands here are intentional
+  nmap <c-e> :SaveSession 
+  nmap <c-f> :OpenSession! 
+
+
+" Colorschemes
+"============================================================================"
+  " nmap <c-l> :NextColorScheme<cr>
+  " nmap <c-h> :PrevColorScheme<cr>
