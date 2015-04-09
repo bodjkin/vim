@@ -27,11 +27,8 @@
           \ })
 
   " Bundles
-    NeoBundle 'scrooloose/syntastic'
-    NeoBundle 'Shougo/vimshell.vim'
     NeoBundle 'bling/vim-airline'
     NeoBundle 'bling/vim-bufferline'
-    NeoBundle 'altercation/vim-colors-solarized'
     NeoBundle 'tpope/vim-commentary'
     NeoBundle 'tpope/vim-fugitive'
     NeoBundle 'tpope/vim-markdown'
@@ -39,26 +36,25 @@
     NeoBundle 'tpope/vim-repeat'
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-unimpaired'
-    NeoBundle 'majutsushi/tagbar'
     NeoBundle 'Lokaltog/vim-easymotion'
     NeoBundle 'ap/vim-css-color'
     NeoBundle 'pangloss/vim-javascript'
-    NeoBundle 'mattn/emmet-vim'
     NeoBundle 'm2mdas/phpcomplete-extended'
     NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'maxbrunsfeld/vim-yankstack'
     NeoBundle 'ctrlpvim/ctrlp.vim'
     NeoBundle 'Raimondi/delimitMate'
-    NeoBundle 'Valloric/YouCompleteMe'
-    NeoBundle 'rking/ag.vim'
     NeoBundle 'PeterRincker/vim-argumentative'
-    NeoBundle 'kchmck/vim-coffee-script'
     NeoBundle 'mxw/vim-jsx'
     NeoBundle 'tpope/vim-abolish'
     NeoBundle 'SirVer/ultisnips'
     NeoBundle 'honza/vim-snippets'
-    NeoBundle 'xolox/vim-misc'
-    NeoBundle 'xolox/vim-session'
+    NeoBundle 'tmux-plugins/vim-tmux-focus-events'
+    
+    " Include optional local scripts
+    if filereadable(glob("~/.vimrc.local"))
+      source ~/.vimrc.local
+    endif
   " xolox/vim-misc is required for the colorscheme switcher
   " NeoBundle 'xolox/vim-colorscheme-switcher'
 
@@ -149,47 +145,6 @@
   let g:bufferline_show_bufnr = 0
 
 
-" Tagbar
-"============================================================================"
-  " Reduce the updatetime for faster feedback in tagbar. Default = 4000
-  " Swapfile is disabled to prevent heavy disk I/O
-    set updatetime=100
-    nnoremap <silent> <space>t :TagbarToggle<CR>
-    nnoremap <silent> <leader>f :TagbarOpenAutoClose<CR>
-  " Haskell support
-    let g:tagbar_type_haskell = {
-        \ 'ctagsbin'  : 'hasktags',
-        \ 'ctagsargs' : '-x -c -o-',
-        \ 'kinds'     : [
-            \  'm:modules:0:1',
-            \  'd:data: 0:1',
-            \  'd_gadt: data gadt:0:1',
-            \  't:type names:0:1',
-            \  'nt:new types:0:1',
-            \  'c:classes:0:1',
-            \  'cons:constructors:1:1',
-            \  'c_gadt:constructor gadt:1:1',
-            \  'c_a:constructor accessors:1:1',
-            \  'ft:function types:1:1',
-            \  'fi:function implementations:0:1',
-            \  'o:others:0:1'
-        \ ],
-        \ 'sro'        : '.',
-        \ 'kind2scope' : {
-            \ 'm' : 'module',
-            \ 'c' : 'class',
-            \ 'd' : 'data',
-            \ 't' : 'type'
-        \ },
-        \ 'scope2kind' : {
-            \ 'module' : 'm',
-            \ 'class'  : 'c',
-            \ 'data'   : 'd',
-            \ 'type'   : 't'
-        \ }
-    \ }
-
-
 " NERDTree
 "============================================================================"
   " Better NERDTree
@@ -204,8 +159,8 @@
 
 "" Relative line numbering
 "============================================================================"
-  :au FocusLost * :set number
-  :au FocusGained * :set relativenumber
+  au FocusLost * :set number
+  au FocusGained * :set relativenumber
 
   autocmd InsertEnter * :set number
   autocmd InsertLeave * :set relativenumber
@@ -269,18 +224,16 @@
 
 " Completion
 "============================================================================"
-  " Tern
-    " let tern#is_show_argument_hints_enabled = 1
-    set wildignore=*.o,*.obj,*~
-    set wildignore+=*vim/backups*
-    set wildignore+=*sass-cache*
-    set wildignore+=*DS_Store*
-    set wildignore+=vendor/rails/**
-    set wildignore+=vendor/cache/**
-    set wildignore+=*.gem
-    set wildignore+=log/**
-    set wildignore+=tmp/**
-    set wildignore+=*.png,*.jpg,*.gif
+  set wildignore=*.o,*.obj,*~
+  set wildignore+=*vim/backups*
+  set wildignore+=*sass-cache*
+  set wildignore+=*DS_Store*
+  set wildignore+=vendor/rails/**
+  set wildignore+=vendor/cache/**
+  set wildignore+=*.gem
+  set wildignore+=log/**
+  set wildignore+=tmp/**
+  set wildignore+=*.png,*.jpg,*.gif
 
   " YouCompleteMe
     let g:ycm_complete_in_comments = 1
@@ -293,8 +246,9 @@
   set ignorecase                  " searches are case insensitive...
   set smartcase                   " ... unless they contain at least one capital letter
   set gdefault                    " have :s///g flag by default on
+
   " turn off search highlighting after search by pressing Return/Enter
-    :nnoremap <CR> :nohlsearch<cr>
+    nnoremap <CR> :nohlsearch<cr>
   " Search mappings: going to next item in search will center on it
     map N Nzz
     map n nzz
@@ -369,40 +323,6 @@
     nmap = <Plug>yankstack_substitute_newer_paste
 
 
-" Syntastic settings
-"============================================================================"
-  " Don't run by default on file open; this can be very slow
-    let g:syntastic_check_on_open=0
-
-  " Javascript checker sucks and I'm not going to waste time configuring a
-  "   slow checker
-    let g:syntastic_mode_map = { 'passive_filetypes': ['javascript'] }
-
-  " Don't run it when I'm trying to close a file......
-    let g:syntastic_check_on_wq = 0
-
-  " pear install PHP_CodeSniffer
-  " >> phpcs is the cli usage
-    let g:syntastic_php_checkers=['phpcs']
-
-  " gem install rubocop
-    let g:syntastic_ruby_checkers=['rubocop']
-
-  " Turn off Syntastic when it's annoying
-    nnoremap <silent> <leader>y :SyntasticToggleMode<cr>
-
-  " Toggle error list
-    function! ToggleErrors()
-        if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
-            " No location/quickfix list shown, open syntastic error location panel
-            Errors
-        else
-            lclose
-        endif
-    endfunction
-    nnoremap <silent> <Leader>e :<C-u>call ToggleErrors()<CR>
-
-
 " Snippets
 "============================================================================"
   " Trigger configuration
@@ -424,12 +344,6 @@
     let g:EasyMotion_smartcase = 1
 
 
-" Emmet
-"============================================================================"
-  let g:user_emmet_install_global = 0
-  autocmd FileType html,css,php,inc EmmetInstall
-
-
 " PHPcomplete
 "============================================================================"
   let g:phpcomplete_index_composer_command = "composer"
@@ -445,15 +359,10 @@
   set guioptions-=T  "remove toolbar
   set guioptions-=L  "remove left-hand scroll bar
 
+
 " Sessions
 "============================================================================"
   let g:session_autosave='no'
   " Spaces after the commands here are intentional
   nmap <c-e> :SaveSession 
   nmap <c-f> :OpenSession! 
-
-
-" Colorschemes
-"============================================================================"
-  " nmap <c-l> :NextColorScheme<cr>
-  " nmap <c-h> :PrevColorScheme<cr>
