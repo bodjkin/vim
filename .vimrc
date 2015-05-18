@@ -26,31 +26,52 @@
           \    },
           \ })
 
+
   " Bundles
+
+  " Appearance
     NeoBundle 'bling/vim-airline'
     NeoBundle 'bling/vim-bufferline'
-    NeoBundle 'tpope/vim-commentary'
-    NeoBundle 'tpope/vim-fugitive'
-    NeoBundle 'tpope/vim-markdown'
+    NeoBundle 'airblade/vim-gitgutter'
+
+  " Navigation
     NeoBundle 'jistr/vim-nerdtree-tabs'
+    NeoBundle 'ctrlpvim/ctrlp.vim'
+
+  " Git
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'gregsexton/gitv'
+
+  " Tools
+    NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle 'tpope/vim-unimpaired'
+    NeoBundle 'maxbrunsfeld/vim-yankstack'
+    NeoBundle 'tpope/vim-abolish'
+    NeoBundle 'tpope/vim-commentary'
     NeoBundle 'tpope/vim-repeat'
     NeoBundle 'tpope/vim-surround'
-    NeoBundle 'tpope/vim-unimpaired'
-    NeoBundle 'Lokaltog/vim-easymotion'
-    NeoBundle 'ap/vim-css-color'
-    NeoBundle 'pangloss/vim-javascript'
-    NeoBundle 'm2mdas/phpcomplete-extended'
-    NeoBundle 'airblade/vim-gitgutter'
-    NeoBundle 'maxbrunsfeld/vim-yankstack'
-    NeoBundle 'ctrlpvim/ctrlp.vim'
     NeoBundle 'Raimondi/delimitMate'
     NeoBundle 'PeterRincker/vim-argumentative'
+
+  " The best
+    NeoBundle 'Lokaltog/vim-easymotion'
+
+  " Highlighting
+    NeoBundle 'tpope/vim-markdown'
+    NeoBundle 'ap/vim-css-color'
+    NeoBundle 'pangloss/vim-javascript'
     NeoBundle 'mxw/vim-jsx'
-    NeoBundle 'tpope/vim-abolish'
+    " NeoBundle 'm2mdas/phpcomplete-extended'
+
+  " Snippets
     NeoBundle 'SirVer/ultisnips'
     NeoBundle 'honza/vim-snippets'
+
+  " Tmux
     NeoBundle 'tmux-plugins/vim-tmux-focus-events'
-    
+    NeoBundle 'Keithbsmiley/tmux.vim'
+
+
     " Include optional local scripts
     if filereadable(glob("~/.vimrc.local"))
       source ~/.vimrc.local
@@ -61,6 +82,7 @@
     call neobundle#end()
 
     syntax on
+
 
   " Required:
     filetype plugin indent on
@@ -75,6 +97,7 @@
   set t_Co=256
   set background=dark
   colorscheme tomokai
+  set lazyredraw
 
   " Don't try to highlight lines longer than 800 characters.
   set synmaxcol=800
@@ -147,6 +170,8 @@
 
 " NERDTree
 "============================================================================"
+  let NERDTreeShowLineNumbers=1
+
   " Better NERDTree
     map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
@@ -181,6 +206,7 @@
   set history=1000                " Store lots of :cmdline history
   set display+=lastline           " show as much as possible of last line in window
   set tabpagemax=50
+  set tw=80
   au BufWinEnter * normal zR
 
 
@@ -235,8 +261,10 @@
   set wildignore+=tmp/**
   set wildignore+=*.png,*.jpg,*.gif
 
-  " YouCompleteMe
-    let g:ycm_complete_in_comments = 1
+  let g:neocomplete#enable_at_startup = 1
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 
 " Searching
@@ -358,11 +386,3 @@
   set guioptions-=m  "remove menu bar
   set guioptions-=T  "remove toolbar
   set guioptions-=L  "remove left-hand scroll bar
-
-
-" Sessions
-"============================================================================"
-  let g:session_autosave='no'
-  " Spaces after the commands here are intentional
-  nmap <c-e> :SaveSession 
-  nmap <c-f> :OpenSession! 
