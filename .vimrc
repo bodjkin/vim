@@ -45,6 +45,7 @@
   " Tools
     NeoBundle 'Shougo/neocomplete.vim'
     NeoBundle 'tpope/vim-unimpaired'
+    NeoBundle 'milkypostman/vim-togglelist'
     NeoBundle 'maxbrunsfeld/vim-yankstack'
     NeoBundle 'tpope/vim-abolish'
     NeoBundle 'tpope/vim-commentary'
@@ -56,12 +57,14 @@
   " The best
     NeoBundle 'Lokaltog/vim-easymotion'
 
-  " Highlighting
+  " Highlighting and stuff
     NeoBundle 'tpope/vim-markdown'
     NeoBundle 'ap/vim-css-color'
     NeoBundle 'pangloss/vim-javascript'
+    NeoBundle 'moll/vim-node'
     NeoBundle 'mxw/vim-jsx'
-    " NeoBundle 'm2mdas/phpcomplete-extended'
+    NeoBundle 'luochen1990/rainbow'
+    NeoBundle 'm2mdas/phpcomplete-extended'
 
   " Snippets
     NeoBundle 'SirVer/ultisnips'
@@ -154,6 +157,32 @@
   " When picking multiple files with <c-z>, open them in buffers
     let g:ctrlp_open_multiple_files = 'i'
 
+  " Faster or something
+    if executable('ag')
+        set grepprg=ag\ --nogroup\ --nocolor
+
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+        " No need for caching with ag
+        let g:ctrlp_use_caching = 0
+
+        " Search for word under cursor with M
+        nnoremap M :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+        " Don't echo shell output
+        set shellpipe=>
+    else
+      let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+      let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+        \ }
+    endif
+
+
+" Togglelist
+"============================================================================"
+  let g:toggle_list_no_mappings = 1
+  nmap <script> <silent> <leader>u :call ToggleQuickfixList()<CR>
 
 " Airline
 "============================================================================"
@@ -231,8 +260,6 @@
   " Switch back and forth between buffers easily
     map <C-n> :bprev<CR>
     map <C-p> :bnext<CR>
-    map <Leader>h :bprev<CR>
-    map <Leader>l :bnext<CR>
   " allow backgrounding buffers without writing
   " remember marks/undo for background buffers
     set hidden
@@ -276,7 +303,7 @@
   set gdefault                    " have :s///g flag by default on
 
   " turn off search highlighting after search by pressing Return/Enter
-    nnoremap <CR> :nohlsearch<cr>
+    nnoremap <BS> :nohlsearch<cr>
   " Search mappings: going to next item in search will center on it
     map N Nzz
     map n nzz
@@ -292,6 +319,8 @@
     nnoremap zl zz
     nnoremap gl gg
     vnoremap gl gg
+  " in a similar vein...
+    nnoremap <Leader>l S
   " duplicate line
     nnoremap yp yyp
   " mash j and k together to escape in insert mode (order doesn't matter)
@@ -364,12 +393,19 @@
   " Disable default mappings
     let g:EasyMotion_do_mapping = 0
 
+  " Bind semicolon to comma before rebinding semicolon
+    nnoremap , ;
   " Bi-directional find motion
   " `;{char}{label}`
     nmap ; <Plug>(easymotion-s)
 
   " Turn on case sensitive feature
     let g:EasyMotion_smartcase = 1
+
+
+" RAINBOWS
+"============================================================================"
+  let g:rainbow_active = 1
 
 
 " PHPcomplete
