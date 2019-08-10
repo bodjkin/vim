@@ -127,13 +127,6 @@
   " show the status bar
     set laststatus=2
 
-  " make system clipboard the default
-    if has ('unnamedplus')
-      set clipboard=unnamedplus
-    else
-      set clipboard=unnamed
-    endif
-
   " Jump to the last known cursor position automatically
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -174,6 +167,11 @@
 
         " Don't echo shell output
         set shellpipe=>
+
+        " Use \ to search with Ag
+        " From https://robots.thoughtbot.com/faster-grepping-in-vim
+        command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+        nnoremap \ :Ag<SPACE>
     else
       let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
       let g:ctrlp_prompt_mappings = {

@@ -1,11 +1,4 @@
-" Plugins that I actually use more rarely or which have obnoxious dependencies for server installs
+" Plugins that I use more rarely or which aren't worth it on servers
 
-" Beefy plugins that can be ignored for a lighter install
-" NeoBundle 'xolox/vim-misc'
-" NeoBundle 'xolox/vim-session'
-
-" Has dependencies and must be built manually--irritating for server installs
+" Has dependencies and must be built manually--skip for server use
 NeoBundle 'Valloric/YouCompleteMe'
-
-" I use this once in a blue moon
-" NeoBundle 'kchmck/vim-coffee-script'
