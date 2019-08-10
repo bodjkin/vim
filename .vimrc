@@ -30,7 +30,8 @@
   " Bundles
 
   " Appearance
-    NeoBundle 'bling/vim-airline'
+    NeoBundle 'vim-airline/vim-airline'
+    NeoBundle 'vim-airline/vim-airline-themes'
     NeoBundle 'bling/vim-bufferline'
     NeoBundle 'airblade/vim-gitgutter'
 
