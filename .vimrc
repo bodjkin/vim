@@ -66,6 +66,7 @@
     NeoBundle 'mxw/vim-jsx'
     NeoBundle 'luochen1990/rainbow'
     NeoBundle 'm2mdas/phpcomplete-extended'
+    NeoBundle 'rust-lang/rust.vim'
     NeoBundle 'digitaltoad/vim-pug'
     NeoBundle 'posva/vim-vue'
 
