@@ -66,6 +66,8 @@
     NeoBundle 'mxw/vim-jsx'
     NeoBundle 'luochen1990/rainbow'
     NeoBundle 'm2mdas/phpcomplete-extended'
+    NeoBundle 'digitaltoad/vim-pug'
+    NeoBundle 'posva/vim-vue'
 
   " Snippets
     NeoBundle 'SirVer/ultisnips'
@@ -348,6 +350,9 @@
   " <c-_> is what the terminal receives from <c-/>
     map <c-_> <Plug>Commentary $
 
+  " Use // for comments in .vue files to work with pug & scss (and js)
+    autocmd FileType vue setlocal commentstring=//\ %s
+
 
   " Emacs-style bindings for splits
   " But make it faster and switch by default if splitting
@@ -371,6 +376,10 @@
     vnoremap L g_
   " Keep the cursor in place while joining lines (uses z mark)
     nnoremap J mzJ`z
+
+  " Redo syntax highlighting
+    noremap <F12> <Esc>:syntax sync fromstart<CR>
+    inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
 
 " Yankstack settings
