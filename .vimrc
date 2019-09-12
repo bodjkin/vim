@@ -204,7 +204,7 @@
   let NERDTreeShowLineNumbers=1
 
   " Better NERDTree
-    map <Leader>n <plug>NERDTreeTabsToggle<CR>
+    map <Leader>n :NERDTreeToggle<CR>
 
   " Show hidden files in NERDTree
     let NERDTreeShowHidden=1
