@@ -146,14 +146,22 @@ alias gs="git status"
 alias gm="git merge"
 alias gp="git push"
 
+# open all files with unstaged changes and all untracked files
+alias vimdirty="vim \$(git status --porcelain | awk '{print \$2}')"
+
 function gch {
   git config credential.helper 'cache --timeout=36000'
 }
 
-command -v cargo >/dev/null 2>&1 || {
-  echo >&2 "Adding Rust binaries to shell";
-  source $HOME/.cargo/env;
-}
+if [ -f ~/.cargo/env ]; then
+  command -v cargo >/dev/null 2>&1 || {
+    echo >&2 "Adding Rust binaries to shell";
+    source $HOME/.cargo/env;
+  }
+fi
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
 
 # Makes paste work with Zsh running in Tmux
 (( $+TMUX )) && unset zle_bracketed_paste

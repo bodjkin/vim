@@ -139,6 +139,12 @@
     autocmd BufNewFile,BufRead *.jsx   set syntax=javascript
     autocmd BufNewFile,BufRead *.ejs   set syntax=html
 
+  " Give me nice paragraph wrapping for markdown files
+    autocmd BufNewFile,BufRead *.md    setlocal formatoptions+=a
+    autocmd BufNewFile,BufRead *.md    setlocal autoindent
+    autocmd BufNewFile,BufRead *.md    setlocal nojoinspaces
+
+
   " Make the commandline window reopen to the same position after executing a command with <F5>
     autocmd CmdwinEnter * nnoremap <buffer> <F5> :let g:CmdWindowLineMark=line(".")<CR><CR>q::execute "normal ".g:CmdWindowLineMark."G"<CR>
   " Don't automatically insert comments
@@ -379,6 +385,13 @@
   " Redo syntax highlighting
     noremap <F12> <Esc>:syntax sync fromstart<CR>
     inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
+  " Use Ctrl-Backspace to delete like nub
+    noremap! <C-BS> <C-w>
+    noremap! <C-h> <C-w>
+
+    inoremap <C-w> <C-\><C-o>dB
+    inoremap <C-BS> <C-\><C-o>dB
 
 
 " Yankstack settings
